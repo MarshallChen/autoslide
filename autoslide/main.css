@@ -1,0 +1,107 @@
+/*css reset goes here*/
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, font, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	outline: 0;
+	font-size: 100%;
+	vertical-align: baseline;
+	background: transparent;
+}
+body {
+	line-height: 1;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+
+/* remember to define focus styles! */
+:focus {
+	outline: 0;
+}
+
+/* remember to highlight inserts somehow! */
+ins {
+	text-decoration: none;
+}
+del {
+	text-decoration: line-through;
+}
+
+/* tables still need 'cellspacing="0"' in the markup */
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+/* clear fix */
+.clearfix:after { content: "."; display: block; height: 0; clear: both; visibility: hidden }
+.clearfix { zoom: 1; display: inline-block; _height: 1px }
+*html .clearfix { height: 1% }
+*+html .clearfix { height: 1% }
+.clearfix { display: block }
+
+
+body{
+	background: url("http://static2.fanfou.com/img/bg/0.png") no-repeat scroll 0 0 #ACDAE5;
+	font: 13px/18px "Helvetica Neue",Helvetica,Arial,Geneva,sans-serif;
+}
+#wrap{
+	background:#fff;
+	width:750px;
+	margin:100px auto;
+	padding:30px 30px;
+	-webkit-border-radius: 10px;  
+    -moz-border-radius: 10px;  
+    border-radius: 10px;  
+}
+#wrap h2{
+	font-size:1.1em;
+}
+input[type='text']{
+	border:1px solid #ccc;
+	padding:3px 3px;
+	-webkit-border-radius: 3px;  
+    -moz-border-radius: 3px;  
+    border-radius: 3px; 
+    width:50px;
+}
+.fancy{
+	background: black;
+	background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#4b4949), to(#1A1A1A));
+	background: -moz-linear-gradient(top,  #4b4949,  #1A1A1A);
+	color:white;
+	border:0px;
+	padding:5px 5px;
+	border-radius: 5px;
+	-webkit-border-radius: 5px;  
+    -moz-border-radius: 5px;
+	cursor:pointer;
+}
+.picholder{
+	margin-top:10px;
+}
+.entry{
+display:block;
+margin-bottom:10px;
+
+}
+.longinput{
+	width:150px !important;
+}
+.fcode textarea{
+	font-size:12px;
+}
+#loading{
+	display:none;
+}

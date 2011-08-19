@@ -1,0 +1,151 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+	<title>auto slideshow generator</title>
+	<link rel="stylesheet" href="main.css" type="text/css"/>
+</head>
+<body>
+	<div id="wrap">
+		<h2>自动生成焦点图小程序</h2>
+		<hr/>
+		<h3>普通选项</h3>
+		将要添加的容器的id名字:<input type="text" name="id" id="holder"/><br/>
+		填写您生成图片的数量 : <input type="text" name="size" id="picsize"/> <input type="button" class="fancy" value="开始添加" id="genepic"/>
+		<div class="picholder">
+
+		</div>
+		填写生成焦点图的高度:<input type="text" name="vwidth"/>   焦点图的高度:<input type="text" name="vheight"/><br/>
+		
+		<h3><a href="#" id="abutton">高级选项</a></h3>
+		<div id="advanced" style="display:none;">
+			是否生成点击链接：YES:<input type="radio" name='showlinks' value='yes' checked/>   No:<input type="radio" name='showlinks' value='no'/><br/>
+			是否开启自动播放：YES:<input type="radio" name='autoplay' value='yes' checked/>   No:<input type="radio" name='autoplay' value='no'/><br/>
+			采用几号样式:1号:<input type="radio" name='stylenum' value='yes' checked/>   2号:<input type="radio" name='stylenum' value='no'/><br/>
+			播放速度：<input type="text" name="playspeed" />(秒  默认为2秒) <br/>
+		</div>
+		<input type="button" class="fancy" value="生成!" id="genecode"/>
+	
+		<hr/>
+		<div class="fcode">
+		</div>
+		<div id="loading"><img src="roller.gif" alt="ing...~" /></div>
+	</div>
+</body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js" type="text/javascript"></script>
+<script type="text/javascript" src="json2.js"></script>
+<script type="text/javascript">
+	$(function(){
+		$('#genepic').bind('click',function(){
+			var picsize = $('#picsize').val() * 1;
+			var holder = $('.picholder');
+			var pa = /^\+?[1-9]{1}$/g;
+			if(pa.test(picsize)){
+				for(var i =0; i<picsize; i++ ){
+					holder.append('<span class="entry">图片地址:<input type="text" name="pic" class="longinput">  链接：<input type="text" name="link" class="longinput"> 描述 : <input type="text" name="desc" class="longinput"></span> ');
+				}
+				
+			}else{
+				alert('请填写正确的数字格式  并且数字为1-9之间');
+				$('#picsize').val('').focus();
+			}
+		})	
+		
+		$('#abutton').bind('click',function(){
+			$('#advanced').slideToggle();
+		})
+		
+		var genecode = $('#genecode');
+		var opt = {};
+		
+		genecode.live('click',function(){
+			var data = [];
+			var pics = $('.entry');
+			if(pics.length == 0){
+				alert('请填写生成图片个数点击生成');
+				return;
+			}
+			var error = false;
+			var vwidth  = $('#wrap input[name="vwidth"]').val();
+			var vheight= $('#wrap input[name="vheight"]').val();
+			var showlinks = $('#advanced input[name="showlinks"]:checked').val();
+			var autoplay = $('#advanced input[name="autoplay"]:checked').val();
+			var playspeed = $('#advanced input[name="playspeed"]').val();
+			var id = $('#holder').val();
+			if(id===''){ 
+				alert('请填写容器名'); 
+				return;
+			}
+			if(showlinks === 'no') opt.showlinks = false;
+			if(autoplay === 'no') opt.autoplay = false;
+			
+			var pa2 = /^[1-9]\d{0,3}$/i;
+			if(pa2.test(vwidth) && pa2.test(vheight)){
+				opt.height = vheight;
+				opt.width = vwidth;
+			}else{
+				error = true;
+				alert('图片长宽为必填项 而且必须为十位到千位数字');
+				return;
+			}
+			pics.each(function(index){
+				var pic ={};
+				var that = $(this);
+				var img = that.find('input[name="pic"]').val();
+				var link = that.find('input[name="link"]').val();
+				var desc = that.find('input[name="desc"]').val();
+				if(img != ''){
+					pic.img = img;
+				}else{
+					error = true;
+					return;
+				}
+				if(link !=''){
+					pic.link = link;
+				}else{
+					pic.link = '#';
+				}
+				if(desc !=''){
+					pic.desc = desc;
+				}
+				data.push(pic);
+			})
+			if(error){
+				alert('图片地址为必填项');
+				return;
+			}
+			var optstr = JSON.stringify(opt);
+			var datastr = JSON.stringify(data);
+			var stylestr = '<link rel="stylesheet" href="1.css" type="text/css"/>';
+			var codestr = '<script src="http://i0.sinaimg.cn/hs/zjwei/10Q1/js/jquery.js"></script\>\n';
+			codestr += '<script src="jquery.vslide.js"></script\>\n';
+			codestr += '<script type="text/javascript">\n';
+			codestr += 'var data =';
+			codestr += datastr+';';
+			codestr += '\nvar opt =';
+			codestr += optstr +';\n';
+			codestr += '$("#'+id+'").vslide(opt,data);\n';
+			codestr += '</script\>\n';
+			alert(codestr);
+			$('.fcode').append('<h2>Paste the folling code in your body</h2>');
+			var codepanel = $('<textarea>',{id:'shit',rows:'8',cols:'50'});
+			codepanel.val(codestr);
+			codepanel.appendTo($('.fcode'));
+			var load = $('#loading');
+			load.show();	
+			$.ajax({
+				type:'POST',
+				url:'function.php',
+				data:{'code':codestr，'id':id},
+				success:function(msg){
+					load.html('<a href="test.html">查看demo</a>');
+					
+				}
+			})
+		})
+	})
+	
+
+	
+</script>
+</html>

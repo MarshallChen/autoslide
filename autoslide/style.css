@@ -1,0 +1,79 @@
+	body{background:#191919;
+			color: #C1C1C1;
+			font-family: Georgia, serif;
+	}
+	a,a:hover{color:#fff;}
+
+	h2{
+		font-size:18px;	
+	}
+	.clearfix:after {
+		content: ".";
+		display: block;
+		height: 0;
+		clear: both;
+		visibility: hidden;
+	}
+	.clearfix {display: inline-block;}
+	/* Hides from IE-mac \*/
+	* html .clearfix {height: 1%;}
+	.clearfix {display: block;}
+	/* End hide from IE-mac */
+	.test{
+		width:960px;
+		margin:100px auto;	
+	}
+	#vholder{
+		overflow:hidden;
+		position:relative;
+	}
+	#imglist{
+		padding:0px;margin:0px;
+		position:absolute;
+		top:0px;
+		left:0px;
+	}
+	#imglist li {
+		list-style-type:none;
+		float:left;
+		position:relative;
+	}
+	#imglist li .caption{
+		position:absolute;
+		bottom:0px;
+		left:0px;
+		padding-left:25px;
+		opacity:0.8;
+		line-height:50px;
+		height:50px;
+		width:100%;
+		background:black;
+	}
+	#imglist li a{
+		text-decoration: none;
+	}
+	#imglist li img{
+		border:0px;
+	}
+	#vthumb{
+		position:absolute;
+		bottom:10px;
+		right:10px;
+		list-style-type:none;
+		margin:0px;
+	}
+	#vthumb li {
+		float:left;
+		margin-right:5px;
+		padding:5px;
+		background:#453835;
+		color:white;
+		text-decoration:none;
+		 cursor: pointer;
+	}
+	#vthumb li:hover, #vthumb .active{
+		background:#b52025;
+	}
+	#vthumb .active,#vthumb .active a{
+		cursor: default;
+	}
