@@ -91,11 +91,8 @@
 					var links = link.find('li');
 					links.first().addClass('active');
 				}
-				//first time auto play
-				if(opts.autoPlay){
-					var cindex = 0;
-					var index = 1;
-					timer = setInterval(function(){
+				var play = function(cindex,index){
+					var timer = setInterval(function(){
 						rotate(cindex,index);
 						cindex++;
 						index++;
@@ -107,6 +104,13 @@
 							cindex = 0;
 						}
 					},opts.speed);
+					return timer;
+				}
+				//first time auto play
+				if(opts.autoPlay){
+					var cindex = 0;
+					var index = 1;
+					timer = play(cindex,index);
 				} 
 				
 				//bind a click event
@@ -125,36 +129,8 @@
 							index++;
 						}
 						if(opts.autoPlay){
-							timer = setInterval(function(){
-								rotate(cindex,index);
-								cindex++;
-								index++;
-								if(index == size){
-									cindex = (size*1 - 1);
-									index = 0;
-								}
-								if(cindex == size){
-									cindex = 0;
-								}
-							},opts.speed);
+							timer = play(cindex,index);
 						} 
-						/*if(cindex < index){
-							caption.animate({width:'hide'},200);
-							setTimeout(function(){
-								list.animate({'left':-960 * index},'2000')
-							},200);
-							caption.animate({width:'show'},1000);
-						}else{
-							caption.animate({
-								marginLeft: parseInt(caption.css('marginLeft'),10) == 0 ?
-								caption.outerWidth() : 0
-							},200);	
-							setTimeout(function(){
-								list.animate({'left':-960 * index},'2000')
-							},200);
-							caption.animate({marginLeft:0},1000);
-							
-						}*/
 						return false;
 					})
 				}
